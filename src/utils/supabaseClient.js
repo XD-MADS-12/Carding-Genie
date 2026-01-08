@@ -2,6 +2,8 @@
 import { createClient } from '@supabase/supabase-js';
 
 // Initialize Supabase client with error handling
+let supabase;
+
 try {
   const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
   const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
@@ -9,7 +11,7 @@ try {
   if (!supabaseUrl || !supabaseKey) {
     console.warn('Supabase environment variables are not set. Using mock data for development.');
     // Create a mock client for development
-    const mockSupabase = {
+    supabase = {
       auth: {
         getUser: async () => ({ data: { user: null } }),
         onAuthStateChange: (callback) => ({
@@ -24,15 +26,13 @@ try {
         eq: () => ({ single: () => ({ data: null, error: null }) })
       })
     };
-    export { mockSupabase as supabase };
   } else {
-    const supabase = createClient(supabaseUrl, supabaseKey);
-    export { supabase };
+    supabase = createClient(supabaseUrl, supabaseKey);
   }
 } catch (error) {
   console.error('Error initializing Supabase client:', error);
-  // Export a mock client if there's an error
-  const mockSupabase = {
+  // Create a mock client if there's an error
+  supabase = {
     auth: {
       getUser: async () => ({ data: { user: null } }),
       onAuthStateChange: (callback) => ({
@@ -47,5 +47,6 @@ try {
       eq: () => ({ single: () => ({ data: null, error: null }) })
     })
   };
-  export { mockSupabase as supabase };
 }
+
+export { supabase };
