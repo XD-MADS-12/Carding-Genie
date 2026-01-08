@@ -47,9 +47,11 @@ function Signup() {
       if (error) {
         setError(error.message);
       } else {
+        console.log('Signup successful, navigating to login');
         navigate('/login');
       }
     } catch (err) {
+      console.error('Signup error:', err);
       setError('An unexpected error occurred');
     } finally {
       setLoading(false);
