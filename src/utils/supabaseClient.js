@@ -19,7 +19,8 @@ try {
         }),
         signInWithPassword: async () => ({ error: null }),
         signUp: async () => ({ error: null }),
-        signOut: async () => {}
+        signOut: async () => {},
+        setSession: async () => ({ error: null })
       },
       from: (table) => ({
         select: () => ({ data: [], error: null }),
@@ -40,7 +41,8 @@ try {
       }),
       signInWithPassword: async () => ({ error: null }),
       signUp: async () => ({ error: null }),
-      signOut: async () => {}
+      signOut: async () => {},
+      setSession: async () => ({ error: null })
     },
     from: (table) => ({
       select: () => ({ data: [], error: null }),
