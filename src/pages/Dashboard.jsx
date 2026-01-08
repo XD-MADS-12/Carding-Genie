@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../utils/supabaseClient';
-import { Home, Mail, Users, ChartBar, ShoppingBag, MagicWand, Shield, MessageSquare, Globe } from 'lucide-react';
+import { Home, Mail, Users, BarChart3, ShoppingBag, MagicWand, Shield, MessageSquare, Globe } from 'lucide-react';
 
 function Dashboard() {
   const [user, setUser] = useState(null);
@@ -72,7 +72,7 @@ function Dashboard() {
           {/* Analytics */}
           <Link to="/analytics" className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
             <div className="flex items-center mb-4">
-              <ChartBar size={32} className="text-blue-600 mr-3" />
+              <BarChart3 size={32} className="text-blue-600 mr-3" />
               <h2 className="text-xl font-semibold">Analytics</h2>
             </div>
             <p className="text-gray-600">Track your performance and statistics</p>
