@@ -34,26 +34,30 @@ function Signup() {
     }
 
     try {
+      console.log('Attempting to sign up with email:', email);
       const { error, data } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          data: {
+           {
             username: username,
           },
         },
       });
 
+      console.log('Sign up result:', { error, data });
+
       if (error) {
-        setError(error.message);
+        setError(`Registration error: ${error.message}`);
+        console.error('Signup error:', error);
       } else {
         console.log('Signup successful, user data:', data.user);
         // Redirect to login after successful signup
         navigate('/login');
       }
     } catch (err) {
+      setError('An unexpected error occurred. Please try again.');
       console.error('Signup error:', err);
-      setError('An unexpected error occurred');
     } finally {
       setLoading(false);
     }
