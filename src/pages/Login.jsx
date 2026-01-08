@@ -18,7 +18,7 @@ function Login() {
     setLoading(true);
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { error, data } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
@@ -27,8 +27,9 @@ function Login() {
         setError(error.message);
         console.error('Login error:', error);
       } else {
-        console.log('Login successful, navigating to dashboard');
-        navigate('/dashboard');
+        console.log('Login successful, user data:', data.user);
+        // Force a reload to trigger the auth state change listener
+        window.location.href = '/dashboard';
       }
     } catch (err) {
       console.error('Login error:', err);
