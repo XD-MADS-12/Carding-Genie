@@ -1,6 +1,6 @@
 // src/App.jsx
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from './utils/supabaseClient';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -9,7 +9,6 @@ import Dashboard from './pages/Dashboard';
 import Balance from './pages/Balance';
 import Plans from './pages/Plans';
 import Contact from './pages/Contact';
-import AuthCallback from './pages/AuthCallback';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 
@@ -17,6 +16,7 @@ function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     // Check if user is already logged in
@@ -39,8 +39,10 @@ function App() {
         console.log('Auth state changed:', event, session);
         setUser(session?.user ?? null);
         if (event === 'SIGNED_IN') {
+          console.log('Navigating to dashboard after login');
           navigate('/dashboard');
         } else if (event === 'SIGNED_OUT') {
+          console.log('Navigating to home after logout');
           navigate('/');
         }
       }
@@ -48,6 +50,22 @@ function App() {
 
     return () => subscription.unsubscribe();
   }, [navigate]);
+
+  // Effect to handle manual navigation after login
+  useEffect(() => {
+    const handleManualRedirect = async () => {
+      if (location.pathname === '/login' || location.pathname === '/signup') {
+        // Check if user is already logged in and redirect if needed
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user && (location.pathname === '/login' || location.pathname === '/signup')) {
+          console.log('User already logged in, redirecting to dashboard');
+          navigate('/dashboard');
+        }
+      }
+    };
+
+    handleManualRedirect();
+  }, [location, navigate]);
 
   if (loading) {
     return (
@@ -65,19 +83,18 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/auth/callback" element={<AuthCallback />} />
           <Route path="/contact" element={<Contact />} />
           <Route 
             path="/dashboard" 
-            element={user ? <Dashboard /> : <Navigate to="/login" />}
+            element={user ? <Dashboard /> : <Navigate to="/login" replace />}
           />
           <Route 
             path="/balance" 
-            element={user ? <Balance /> : <Navigate to="/login" />}
+            element={user ? <Balance /> : <Navigate to="/login" replace />}
           />
           <Route 
             path="/plans" 
-            element={user ? <Plans /> : <Navigate to="/login" />}
+            element={user ? <Plans /> : <Navigate to="/login" replace />}
           />
         </Routes>
       </main>
