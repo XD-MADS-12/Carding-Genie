@@ -26,9 +26,11 @@ function Login() {
       if (error) {
         setError(error.message);
       } else {
+        console.log('Login successful, navigating to dashboard');
         navigate('/dashboard');
       }
     } catch (err) {
+      console.error('Login error:', err);
       setError('An unexpected error occurred');
     } finally {
       setLoading(false);
