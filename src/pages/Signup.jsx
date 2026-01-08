@@ -39,7 +39,7 @@ function Signup() {
         email,
         password,
         options: {
-           {
+          data: {
             username: username,
           },
         },
@@ -51,7 +51,7 @@ function Signup() {
         setError(`Registration error: ${error.message}`);
         console.error('Signup error:', error);
       } else {
-        console.log('Signup successful, user data:', data.user);
+        console.log('Signup successful, user ', data.user);
         // Redirect to login after successful signup
         navigate('/login');
       }
