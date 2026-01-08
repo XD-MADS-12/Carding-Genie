@@ -6,22 +6,6 @@
 body {
   @apply bg-white text-gray-800;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
-}
-
-html {
-  height: 100%;
-  width: 100%;
-}
-
-#root {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background-color: #f9fafb;
 }
 
 .dark-mode {
@@ -52,54 +36,15 @@ html {
   }
 }
 
-/* Ensure all content is visible */
-* {
-  box-sizing: border-box;
+/* Ensure body takes full height */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
-/* Add some basic styling to ensure content is visible */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-.flex {
-  display: flex;
-}
-
-.flex-col {
-  flex-direction: column;
-}
-
-.items-center {
-  align-items: center;
-}
-
-.justify-center {
-  justify-content: center;
-}
-
-.min-h-screen {
+#root {
   min-height: 100vh;
-}
-
-.bg-gray-50 {
-  background-color: #f9fafb;
-}
-
-.text-gray-800 {
-  color: #1f2937;
-}
-
-/* Add this to ensure the app renders properly */
-.app-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-}
-
-.main-content {
-  flex: 1;
-  padding: 20px;
 }
