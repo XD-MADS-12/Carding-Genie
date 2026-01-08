@@ -34,7 +34,7 @@ function Signup() {
     }
 
     try {
-      const { error } = await supabase.auth.signUp({
+      const { error, data } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -47,7 +47,8 @@ function Signup() {
       if (error) {
         setError(error.message);
       } else {
-        console.log('Signup successful, navigating to login');
+        console.log('Signup successful, user data:', data.user);
+        // Redirect to login after successful signup
         navigate('/login');
       }
     } catch (err) {
