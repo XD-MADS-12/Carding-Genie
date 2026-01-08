@@ -18,22 +18,25 @@ function Login() {
     setLoading(true);
 
     try {
+      console.log('Attempting to sign in with email:', email);
       const { error, data } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
+      console.log('Sign in result:', { error, data });
+
       if (error) {
-        setError(error.message);
+        setError(`Authentication error: ${error.message}`);
         console.error('Login error:', error);
       } else {
-        console.log('Login successful, user data:', data.user);
-        // Force a reload to trigger the auth state change listener
+        console.log('Login successful, user:', data.user);
+        // Directly redirect without relying on auth state change
         window.location.href = '/dashboard';
       }
     } catch (err) {
+      setError('An unexpected error occurred. Please try again.');
       console.error('Login error:', err);
-      setError('An unexpected error occurred');
     } finally {
       setLoading(false);
     }
