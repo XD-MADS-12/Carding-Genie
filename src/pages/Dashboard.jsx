@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../utils/supabaseClient';
-import { Home, Mail, Users, BarChart3, ShoppingBag, MagicWand, Shield, MessageSquare, Globe } from 'lucide-react';
+import { Home, Mail, Users, BarChart3, ShoppingBag, Zap, Shield, MessageSquare, Globe } from 'lucide-react';
 
 function Dashboard() {
   const [user, setUser] = useState(null);
@@ -11,7 +11,7 @@ function Dashboard() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {  { user } } = await supabase.auth.getUser();
       setUser(user);
       setLoading(false);
     };
@@ -81,7 +81,7 @@ function Dashboard() {
           {/* Magic Genie */}
           <Link to="/magic-genie" className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
             <div className="flex items-center mb-4">
-              <MagicWand size={32} className="text-blue-600 mr-3" />
+              <Zap size={32} className="text-blue-600 mr-3" />
               <h2 className="text-xl font-semibold">Magic Genie</h2>
             </div>
             <p className="text-gray-600">Automated carding methods</p>
