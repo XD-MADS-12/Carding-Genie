@@ -9,6 +9,7 @@ import Dashboard from './pages/Dashboard';
 import Balance from './pages/Balance';
 import Plans from './pages/Plans';
 import Contact from './pages/Contact';
+import AuthCallback from './pages/AuthCallback';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 
@@ -35,6 +36,7 @@ function App() {
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
+        console.log('Auth state changed:', event, session);
         setUser(session?.user ?? null);
         if (event === 'SIGNED_IN') {
           navigate('/dashboard');
@@ -63,6 +65,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/auth/callback" element={<AuthCallback />} />
           <Route path="/contact" element={<Contact />} />
           <Route 
             path="/dashboard" 
