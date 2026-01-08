@@ -25,6 +25,7 @@ function Login() {
 
       if (error) {
         setError(error.message);
+        console.error('Login error:', error);
       } else {
         console.log('Login successful, navigating to dashboard');
         navigate('/dashboard');
