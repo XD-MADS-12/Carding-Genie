@@ -1,7 +1,7 @@
 // src/components/layout/Header.jsx
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { supabase } from '../utils/supabaseClient';
+import { supabase } from '../../utils/supabaseClient';
 import { Menu, X, User, Moon, Sun } from 'lucide-react';
 
 function Header({ user }) {
