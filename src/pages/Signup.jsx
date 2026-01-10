@@ -52,6 +52,8 @@ function Signup() {
         console.error('Signup error:', error);
       } else {
         console.log('Signup successful, user ', data.user);
+        // Store user data in localStorage for persistence
+        localStorage.setItem('user', JSON.stringify(data.user));
         // Redirect to login after successful signup
         navigate('/login');
       }
