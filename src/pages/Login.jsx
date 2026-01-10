@@ -31,8 +31,10 @@ function Login() {
         console.error('Login error:', error);
       } else {
         console.log('Login successful, user:', data.user);
-        // Directly redirect without relying on auth state change
-        window.location.href = '/dashboard';
+        // Store user data in localStorage for persistence
+        localStorage.setItem('user', JSON.stringify(data.user));
+        // Redirect to dashboard
+        navigate('/dashboard');
       }
     } catch (err) {
       setError('An unexpected error occurred. Please try again.');
