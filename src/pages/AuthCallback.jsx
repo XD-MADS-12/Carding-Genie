@@ -40,8 +40,11 @@ function AuthCallback() {
         }
       } else {
         // If no tokens in URL, check if user is already authenticated
-        const { data: { user } } = await supabase.auth.getUser();
-        if (user) {
+        const { data: { user }, error } = await supabase.auth.getUser();
+        if (error) {
+          console.error('Error getting user:', error);
+          navigate('/login');
+        } else if (user) {
           console.log('User authenticated via callback, navigating to dashboard');
           navigate('/dashboard');
         } else {
