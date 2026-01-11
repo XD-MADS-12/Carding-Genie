@@ -14,7 +14,7 @@ const Plans = () => {
 
   const fetchUserBalance = async () => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {  { user } } = await supabase.auth.getUser();
       if (user) {
         // Fetch the actual balance from the profiles table in Supabase
         const { data, error } = await supabase
@@ -100,7 +100,7 @@ const Plans = () => {
       // If user has sufficient balance, proceed with purchase
       // First, deduct the amount from the user's balance
       try {
-        const { data: { user } } = await supabase.auth.getUser();
+        const {  { user } } = await supabase.auth.getUser();
         if (user) {
           const { error } = await supabase
             .from('profiles')
