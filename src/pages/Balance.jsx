@@ -10,14 +10,14 @@ function Balance() {
   const [loading, setLoading] = useState(true);
   const [cryptoOptions, setCryptoOptions] = useState([
     { name: 'Bitcoin', symbol: 'BTC', address: 'bc1q...xyz', fee: 0.0001 },
-    { name: 'Ethereum', symbol: 'ETH', address: '0x...abc', fee: 0.001 },
+    { name: 'Ethereum', symbol: 'ETH', address: '0x3462FF0B6DA8283d1370a448A7A35b08478c8e7B', fee: 0.001 },
     { name: 'Cardano', symbol: 'ADA', address: 'addr1...def', fee: 0.1 },
     { name: 'Dash', symbol: 'DASH', address: 'Xr...ghi', fee: 0.01 },
     { name: 'Dogecoin', symbol: 'DOGE', address: 'D...jkl', fee: 0.1 },
     { name: 'Litecoin', symbol: 'LTC', address: 'L...mno', fee: 0.001 },
     { name: 'Monero', symbol: 'XMR', address: '4...pqr', fee: 0.01 },
     { name: 'Solana', symbol: 'SOL', address: 'So...stu', fee: 0.0001 },
-    { name: 'USDT', symbol: 'USDT', address: '0x...vwx', fee: 0.001 },
+    { name: 'USDT', symbol: 'USDT', address: '0x3462FF0B6DA8283d1370a448A7A35b08478c8e7B', fee: 0.001 },
     { name: 'Zcash', symbol: 'ZEC', address: 't1...yz', fee: 0.001 },
   ]);
   const [selectedCrypto, setSelectedCrypto] = useState(null);
@@ -25,8 +25,21 @@ function Balance() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
+      // Check Supabase for authenticated user
+      const {  { user }, error } = await supabase.auth.getUser();
+      if (error) {
+        console.error('Error fetching user from Supabase:', error);
+        navigate('/login');
+        return;
+      } else {
+        setUser(user);
+        if (user) {
+          localStorage.setItem('user', JSON.stringify(user));
+        } else {
+          navigate('/login');
+          return;
+        }
+      }
       
       // Fetch user balance from database
       if (user) {
@@ -47,7 +60,7 @@ function Balance() {
     };
 
     fetchUser();
-  }, []);
+  }, [navigate, user]);
 
   const handleAddFunds = (crypto) => {
     setSelectedCrypto(crypto);
@@ -94,9 +107,9 @@ function Balance() {
             </div>
           </div>
           
-          {balance < 20 && (
+          {balance < 265 && (
             <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4">
-              <p>Not enough funds! You need $20.00 more to purchase the selected bundles.</p>
+              <p>Not enough funds! You need $265.00 more to purchase the selected bundles.</p>
             </div>
           )}
         </div>
@@ -116,7 +129,7 @@ function Balance() {
               </div>
               
               <div className="mb-4">
-                <p className="text-sm mb-2">Minimum transfer amount is $20.00</p>
+                <p className="text-sm mb-2">Minimum transfer amount is $265.00</p>
                 <p className="text-sm mb-4">Transaction Fee is {selectedCrypto.fee} {selectedCrypto.symbol}</p>
                 
                 <div className="flex justify-center mb-4">
