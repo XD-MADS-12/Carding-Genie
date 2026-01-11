@@ -107,7 +107,7 @@ function Balance() {
             </div>
           </div>
           
-          {balance < 265 && (
+          {balance < 20 && (
             <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4">
               <p>Not enough funds! You need $265.00 more to purchase the selected bundles.</p>
             </div>
@@ -134,7 +134,7 @@ function Balance() {
                 
                 <div className="flex justify-center mb-4">
                   <img 
-                    src={`https://placehold.co/200x200/000/FFF?text=QR+${selectedCrypto.symbol}`} 
+                    src={`./QR+CODE/QR+CODE.jpg+${selectedCrypto.symbol}`} 
                     alt="QR Code" 
                     className="rounded"
                   />
