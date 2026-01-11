@@ -9,15 +9,10 @@
       }
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/[^.]+",
-      "dest": "/index.html",
-      "status": 200
-    },
-    {
-      "src": "/(.*\\..*)",
-      "dest": "/$1"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ],
   "headers": [
