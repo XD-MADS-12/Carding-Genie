@@ -24,7 +24,7 @@ const ProtectedRoute = ({ children }) => {
 
   useEffect(() => {
     const getSession = async () => {
-      const {  { session } } = await supabase.auth.getSession();
+      const { data: { session } } = await supabase.auth.getSession();
       setSession(session);
       setLoading(false);
     };
@@ -32,11 +32,13 @@ const ProtectedRoute = ({ children }) => {
     getSession();
 
     // The onAuthStateChange method returns a subscription, not a promise
-    const getSession = async () => {
-  const { data: { session } } = await supabase.auth.getSession();
-  setSession(session);
-  setLoading(false);
-};
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setSession(session);
+        setLoading(false);
+      }
+    );
+
     return () => {
       subscription.unsubscribe();
     };
@@ -62,7 +64,7 @@ function App() {
 
   useEffect(() => {
     const getUser = async () => {
-      const {  { user } } = await supabase.auth.getUser();
+      const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         setUser(user);
       }
@@ -71,12 +73,15 @@ function App() {
     getUser();
 
     // The onAuthStateChange method returns a subscription, not a promise
-    const getUser = async () => {
-  const { data: { user } } = await supabase.auth.getUser();
-  if (user) {
-    setUser(user);
-  }
-};
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        if (session?.user) {
+          setUser(session.user);
+        } else {
+          setUser(null);
+        }
+      }
+    );
 
     return () => {
       subscription.unsubscribe();
