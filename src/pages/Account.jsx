@@ -21,7 +21,7 @@ const Account = () => {
 
   const fetchUserProfile = async () => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {  { user } } = await supabase.auth.getUser();
       if (user) {
         setUser(user);
         // In a real app, you would fetch profile from your database
@@ -54,7 +54,7 @@ const Account = () => {
     try {
       // Update user metadata
       const { error } = await supabase.auth.updateUser({
-        data: {
+         {
           username: profile.username,
           phone: profile.phone,
           address: profile.address
