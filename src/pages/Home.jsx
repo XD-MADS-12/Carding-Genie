@@ -87,7 +87,7 @@ function Home() {
                 <MessageSquare size={40} className="text-white" />
               </div>
               <h3 className="text-xl font-bold mb-2">Integrated Mailbox</h3>
-              <p className="text-sm">Integrated mailbox to register accounts with fake emails, configurations to activate Track & Trace</p>
+              <p className="text-sm">Integrated mailbox to register accounts with emails, configurations to activate Track & Trace</p>
             </div>
 
             {/* Over 1200 Automated Methods */}
