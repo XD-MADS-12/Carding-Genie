@@ -1,186 +1,218 @@
-// src/components/dashboard/Plans.jsx
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { supabase } from '../../utils/supabaseClient';
-import { Check, Star, Crown } from 'lucide-react';
+// src/pages/Plans.jsx
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import supabase from '../services/supabaseClient';
 
-function Plans() {
-  const [selectedPlan, setSelectedPlan] = useState(null);
+const Plans = () => {
   const navigate = useNavigate();
+  const [userBalance, setUserBalance] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchUserBalance();
+  }, []);
+
+  const fetchUserBalance = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        // Fetch the actual balance from the profiles table in Supabase
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('balance')
+          .eq('id', user.id)
+          .single();
+
+        if (error) {
+          console.error('Error fetching user balance:', error);
+          setUserBalance(0);
+        } else {
+          setUserBalance(data.balance || 0);
+        }
+      }
+    } catch (error) {
+      console.error('Error getting user:', error);
+      setUserBalance(0);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const plans = [
     {
-      name: 'STANDARD',
+      name: 'STANDARD BUNDLE',
       price: 260,
+      points: '23K Genie Points',
+      duration: '6 Months License',
+      cards: '7 Gold Non VBV Fullz Cards',
       features: [
-        'BALANCE/TOP UP SET',
-        'CC MANAGER/BALANCE VERIFICATION BYPASS',
-        'SMS/PHONE SPOOFING',
-        'SECURE LOCATION',
-        'VERIFICATION BYPASS',
-        'INTEGRATED MAILBOX',
-        'PC & VPS REMOTE SETUP FILE',
-        'TELEGRAM BOT',
-        'EMAIL SUPPORT',
-        'LIFETIME ACCESS',
-        'FULLY AUTOMATED'
+        'SMS/PHONE# OTP Bot All Countries',
+        'CC Manager/Balance Checker And Integrated Mailbox',
+        'Location Spoofing+Security: VPN/RDP/SOCKs5 Proxy',
+        'AVS/API/Velocity Check Bypass',
+        'Human Behavior (Captcha Solver And 2FA Prevention Included)',
+        'PC & IOS/Android Setup File',
+        'All Methods Unlocked',
+        'Methods/Software Updates And 24/7 Tech Support'
       ],
-      recommended: false
+      popular: false
     },
     {
-      name: 'PRO',
+      name: 'PRO BUNDLE',
       price: 560,
+      points: '60K Genie Points',
+      duration: '12 Months License',
+      cards: '7 Platinum Non VBV Fullz Cards',
       features: [
-        'ALL FEATURES FROM STANDARD',
-        'CC MANAGER/BALANCE VERIFICATION BYPASS',
-        'SMS/PHONE SPOOFING',
-        'SECURE LOCATION',
-        'VERIFICATION BYPASS',
-        'INTEGRATED MAILBOX',
-        'PC & VPS REMOTE SETUP FILE',
-        'TELEGRAM BOT',
-        'EMAIL SUPPORT',
-        'LIFETIME ACCESS',
-        'FULLY AUTOMATED',
-        'UPDATES AND 24/7 TECH SUPPORT'
+        'SMS/PHONE# OTP Bot All Countries',
+        'CC Manager/Balance Checker And Integrated Mailbox',
+        'Location Spoofing+Security: VPN/RDP/SOCKs5 Proxy',
+        'AVS/API/Velocity Check Bypass',
+        'Human Behavior (Captcha Solver And 2FA Prevention Included)',
+        'PC & IOS/Android Setup File',
+        'All Methods Unlocked',
+        'Methods/Software Updates And 24/7 Tech Support'
       ],
-      recommended: true
+      popular: true
     },
     {
-      name: 'MASTER',
+      name: 'MASTER BUNDLE',
       price: 650,
+      points: '180K Genie Points',
+      duration: 'Lifetime License',
+      cards: '17 Business Non VBV Fullz Cards',
       features: [
-        'ALL FEATURES FROM PRO',
-        'INTERRUPTED/SPYWARE/FIREWALL DISABLE',
-        'LOCATION SPOOFING',
-        'PRIVATE VPN SERVER',
-        'PREMIUM SECURITY',
-        'CHECK BYPASSES',
-        'FRAUD DETECTION',
-        'CUSTOM SCRIPTS',
-        'UPDATES AND 24/7 TECH SUPPORT',
-        'LIFETIME ACCESS',
-        'FULLY AUTOMATED',
-        'SETUP FILE',
-        'TELEGRAM BOT',
-        'EMAIL SUPPORT',
-        'PC & VPS REMOTE SETUP FILE',
-        'ALWAYS ONLINE',
-        'LIFETIME ACCESS'
+        'SMS/PHONE# OTP Bot All Countries',
+        'CC Manager/Balance Checker And Integrated Mailbox',
+        'Location Spoofing+Security: VPN/RDP/SOCKs5 Proxy',
+        'AVS/API/Velocity Check Bypass',
+        'Human Behavior (Captcha Solver And 2FA Prevention Included)',
+        'PC & IOS/Android Setup File',
+        'All Methods Unlocked',
+        'Methods/Software Updates And 24/7 Top Priority Support'
       ],
-      recommended: false
+      popular: false
     }
   ];
 
-  const handlePurchase = (plan) => {
-    setSelectedPlan(plan);
+  const handlePlanSelect = async (selectedPlan) => {
+    if (userBalance >= selectedPlan.price) {
+      // If user has sufficient balance, proceed with purchase
+      // First, deduct the amount from the user's balance
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          const { error } = await supabase
+            .from('profiles')
+            .update({ balance: userBalance - selectedPlan.price })
+            .eq('id', user.id);
+
+          if (error) {
+            console.error('Error updating balance:', error);
+            alert('Error processing your purchase. Please try again.');
+            return;
+          }
+
+          // Navigate to checkout with the plan details
+          navigate('/checkout', { state: { plan: selectedPlan } });
+        }
+      } catch (error) {
+        console.error('Error during purchase:', error);
+        alert('Error processing your purchase. Please try again.');
+      }
+    } else {
+      // If user doesn't have sufficient balance, redirect to deposit page
+      navigate('/add-funds', { state: { requiredAmount: selectedPlan.price - userBalance } });
+    }
   };
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-6">Choose Your Plan</h1>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          {plans.map((plan, index) => (
-            <div 
-              key={index}
-              className={`bg-white rounded-lg shadow-md p-6 ${plan.recommended ? 'border-2 border-indigo-600' : ''}`}
-            >
-              {plan.recommended && (
-                <div className="bg-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full mb-4">
-                  RECOMMENDED
-                </div>
-              )}
-              
-              <h2 className="text-2xl font-bold mb-2">{plan.name}</h2>
-              <div className="text-4xl font-bold mb-4">${plan.price}</div>
-              
-              <ul className="mb-6 space-y-2">
-                {plan.features.map((feature, i) => (
-                  <li key={i} className="flex items-center">
-                    <Check size={16} className="text-green-500 mr-2" />
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-              
-              <button
-                onClick={() => handlePurchase(plan)}
-                className={`w-full ${plan.recommended ? 'bg-indigo-600 hover:bg-indigo-700' : 'bg-gray-600 hover:bg-gray-700'} text-white font-bold py-2 px-4 rounded`}
-              >
-                Buy Now
-              </button>
-            </div>
-          ))}
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">
+            Pricing Plans
+          </h2>
+          <p className="mt-4 text-lg text-gray-600 dark:text-gray-300">
+            Choose the perfect plan for your needs
+          </p>
+          <p className="mt-2 text-gray-600 dark:text-gray-400">
+            Current Balance: ${userBalance.toFixed(2)}
+          </p>
         </div>
 
-        {/* Purchase Modal */}
-        {selectedPlan && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold">Purchase {selectedPlan.name} Plan</h2>
-                <button 
-                  onClick={() => setSelectedPlan(null)}
-                  className="text-gray-500 hover:text-gray-700"
-                >
-                  <X size={24} />
-                </button>
-              </div>
-              
-              <div className="mb-4">
-                <p className="text-xl font-bold mb-2">${selectedPlan.price} USD</p>
-                <p className="text-gray-600 mb-4">You will get access to all features in the {selectedPlan.name} plan.</p>
-                
-                <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4">
-                  <p>Minimum balance required: $20.00</p>
+        <div className="mt-16 space-y-12 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-x-8">
+          {plans.map((plan) => (
+            <div
+              key={plan.name}
+              className={`relative p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-lg sm:px-10 sm:py-12 ${
+                plan.popular ? 'ring-2 ring-purple-600 transform scale-105' : ''
+              }`}
+            >
+              {plan.popular && (
+                <div className="absolute top-0 py-1.5 px-4 bg-purple-600 rounded-full text-xs font-semibold uppercase tracking-wide text-white transform -translate-y-1/2">
+                  Most popular
                 </div>
+              )}
+              <div className="text-center">
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">{plan.name}</h3>
+                <div className="mt-4 flex items-center justify-center">
+                  <span className="text-4xl font-extrabold text-gray-900 dark:text-white">${plan.price}</span>
+                </div>
+                <p className="mt-2 text-lg font-semibold text-purple-600 dark:text-purple-400">{plan.points}</p>
+                <p className="mt-1 text-gray-600 dark:text-gray-300">{plan.duration}</p>
+                <p className="mt-1 text-gray-600 dark:text-gray-300">{plan.cards}</p>
                 
-                <div className="flex space-x-2">
-                  <button 
-                    onClick={() => navigate('/balance')}
-                    className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
+                <ul className="mt-8 space-y-4">
+                  {plan.features.map((feature, index) => (
+                    <li key={index} className="flex items-start">
+                      <svg
+                        className="h-6 w-6 flex-shrink-0 text-green-500 mr-2"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span className="text-gray-700 dark:text-gray-300 text-sm">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                
+                <div className="mt-10">
+                  <button
+                    onClick={() => handlePlanSelect(plan)}
+                    className={`w-full flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md ${
+                      plan.popular
+                        ? 'bg-purple-600 text-white shadow-sm hover:bg-purple-700'
+                        : 'bg-gray-100 text-gray-900 hover:bg-gray-200 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600'
+                    }`}
                   >
-                    Add Funds
+                    Buy This Plan
                   </button>
-                  <button 
-                    onClick={() => setSelectedPlan(null)}
-                    className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-                  >
-                    Cancel
-                  </button>
+                  
+                  {userBalance < plan.price && (
+                    <p className="mt-3 text-sm text-red-600 dark:text-red-400">
+                      Need ${plan.price - userBalance} more to purchase this plan
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
-          </div>
-        )}
-
-        {/* Statistics Section */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-          <h2 className="text-2xl font-bold mb-4">Let The Numbers Speak</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-indigo-600">11+</div>
-              <div className="text-gray-600">Active developers</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-indigo-600">29+</div>
-              <div className="text-gray-600">Months of beta testing</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-indigo-600">1983+</div>
-              <div className="text-gray-600">Satisfied Clients</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-indigo-600">130,000+</div>
-              <div className="text-gray-600">Contest Orders</div>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Plans;
