@@ -1,99 +1,88 @@
 // src/components/layout/Header.jsx
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { supabase } from '../../utils/supabaseClient';
-import { Menu, X, User, Moon, Sun } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
+import ThemeToggle from '../ui/ThemeToggle';
+import supabase from '../../services/supabaseClient';
 
-function Header({ user }) {
+const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
   const navigate = useNavigate();
 
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-    document.documentElement.classList.toggle('dark');
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate('/login');
   };
 
-  const handleLogout = async () => {
-    try {
-      await supabase.auth.signOut();
-      console.log('Logged out successfully');
-      navigate('/');
-    } catch (error) {
-      console.error('Error logging out:', error);
-    }
-  };
+  const navItems = [
+    { name: 'Home', path: '/' },
+    { name: 'How To Use', path: '/how-to-use' },
+    { name: 'Register', path: '/signup' },
+    { name: 'Login', path: '/login' },
+    { name: 'Contact', path: '/contact' },
+  ];
 
   return (
-    <header className={`bg-white shadow-md ${darkMode ? 'bg-gray-800 text-white' : ''}`}>
+    <header className="bg-white dark:bg-gray-900 shadow-md">
       <div className="container mx-auto px-4 py-4">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center space-x-8">
-            <Link to="/" className="flex items-center space-x-2">
-              <span className="text-xl font-bold">Carding automated</span>
+        <div className="flex justify-between h-16">
+          <div className="flex-shrink-0 flex items-center">
+            <Link to="/" className="flex items-center">
+              <img 
+                src="https://placehold.co/40x40/6B46C1/FFFFFF?text=CG" 
+                alt="Carding Genie Logo" 
+                className="h-10 w-10 rounded-full"
+              />
+              <span className="ml-2 text-xl font-bold text-purple-600 dark:text-purple-400">Carding automated</span>
             </Link>
-            
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex space-x-6">
-              <Link to="/" className="hover:text-indigo-600">HOME</Link>
-              <Link to="/how-to-use" className="hover:text-indigo-600">HOW TO USE</Link>
-              <Link to="/register" className="hover:text-indigo-600">REGISTER</Link>
-              {user ? (
-                <Link to="/dashboard" className="hover:text-indigo-600">DASHBOARD</Link>
-              ) : (
-                <Link to="/login" className="hover:text-indigo-600">LOGIN</Link>
-              )}
-              <Link to="/contact" className="hover:text-indigo-600">CONTACT</Link>
-            </nav>
           </div>
 
-          <div className="flex items-center space-x-4">
-            {/* Dark Mode Toggle */}
-            <button 
-              onClick={toggleDarkMode}
-              className="p-2 rounded-full bg-gray-200 dark:bg-gray-700"
-            >
-              {darkMode ? <Sun size={20} /> : <Moon size={20} />}
-            </button>
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-8">
+            {navItems.map((item) => (
+              <Link
+                key={item.name}
+                to={item.path}
+                className="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 px-3 py-2 text-sm font-medium"
+              >
+                {item.name}
+              </Link>
+            ))}
+            <ThemeToggle />
+          </nav>
 
-            {/* Mobile Menu Button */}
-            <button 
-              className="md:hidden p-2"
+          {/* Mobile menu button */}
+          <div className="md:hidden flex items-center">
+            <ThemeToggle />
+            <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 focus:outline-none"
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
-
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <nav className="md:hidden pt-4 pb-2 border-t border-gray-200 dark:border-gray-700">
-            <div className="flex flex-col space-y-4">
-              <Link to="/" className="hover:text-indigo-600" onClick={() => setIsMenuOpen(false)}>HOME</Link>
-              <Link to="/how-to-use" className="hover:text-indigo-600" onClick={() => setIsMenuOpen(false)}>HOW TO USE</Link>
-              <Link to="/register" className="hover:text-indigo-600" onClick={() => setIsMenuOpen(false)}>REGISTER</Link>
-              {user ? (
-                <Link to="/dashboard" className="hover:text-indigo-600" onClick={() => setIsMenuOpen(false)}>DASHBOARD</Link>
-              ) : (
-                <Link to="/login" className="hover:text-indigo-600" onClick={() => setIsMenuOpen(false)}>LOGIN</Link>
-              )}
-              <Link to="/contact" className="hover:text-indigo-600" onClick={() => setIsMenuOpen(false)}>CONTACT</Link>
-              
-              {user && (
-                <button 
-                  onClick={handleLogout}
-                  className="text-left hover:text-indigo-600"
-                >
-                  LOGOUT
-                </button>
-              )}
-            </div>
-          </nav>
-        )}
       </div>
+
+      {/* Mobile Navigation */}
+      {isMenuOpen && (
+        <div className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">
+          <div className="pt-2 pb-3 space-y-1">
+            {navItems.map((item) => (
+              <Link
+                key={item.name}
+                to={item.path}
+                className="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {item.name}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
     </header>
   );
-}
+};
 
 export default Header;
