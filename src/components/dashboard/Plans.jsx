@@ -14,7 +14,7 @@ const Plans = () => {
 
   const fetchUserBalance = async () => {
     try {
-      const { { user } } = await supabase.auth.getUser();
+      const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         // Fetch the actual balance from the profiles table in Supabase
         const { data, error } = await supabase
