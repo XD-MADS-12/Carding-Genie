@@ -21,7 +21,7 @@ const BalanceSection = () => {
   const fetchBalance = async () => {
     setLoading(true);
     try {
-      const {  { user } } = await supabase.auth.getUser();
+      const { data: { user } } = await supabase.auth.getUser();
       
       if (!user) {
         throw new Error('User not authenticated');
