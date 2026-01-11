@@ -24,14 +24,15 @@ const ProtectedRoute = ({ children }) => {
 
   useEffect(() => {
     const getSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const {  { session } } = await supabase.auth.getSession();
       setSession(session);
       setLoading(false);
     };
 
     getSession();
 
-    const { data: { subscription } } = await supabase.auth.onAuthStateChange(
+    // The onAuthStateChange callback doesn't require awaiting the returned promise
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         setSession(session);
         setLoading(false);
@@ -63,7 +64,7 @@ function App() {
 
   useEffect(() => {
     const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {  { user } } = await supabase.auth.getUser();
       if (user) {
         setUser(user);
       }
@@ -71,7 +72,8 @@ function App() {
 
     getUser();
 
-    const { data: { subscription } } = await supabase.auth.onAuthStateChange(
+    // The onAuthStateChange callback doesn't require awaiting the returned promise
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         if (session?.user) {
           setUser(session.user);
@@ -209,13 +211,37 @@ function App() {
               </ProtectedRoute>
             } />
             
-            <Route path="/add-funds/:crypto" element={
+            <Route path="/add-funds/:crypto?" element={
               <ProtectedRoute>
                 <>
                   <Navigation user={user} />
                   <div className="container mx-auto px-4 py-8">
                     <h1 className="text-3xl font-bold text-gray-800 dark:text-white">Add Funds</h1>
                     <p className="mt-4 text-gray-600 dark:text-gray-300">Add funds using cryptocurrency.</p>
+                  </div>
+                </>
+              </ProtectedRoute>
+            } />
+            
+            <Route path="/checkout" element={
+              <ProtectedRoute>
+                <>
+                  <Navigation user={user} />
+                  <div className="container mx-auto px-4 py-8">
+                    <h1 className="text-3xl font-bold text-gray-800 dark:text-white">Checkout</h1>
+                    <p className="mt-4 text-gray-600 dark:text-gray-300">Complete your purchase.</p>
+                  </div>
+                </>
+              </ProtectedRoute>
+            } />
+            
+            <Route path="/withdraw" element={
+              <ProtectedRoute>
+                <>
+                  <Navigation user={user} />
+                  <div className="container mx-auto px-4 py-8">
+                    <h1 className="text-3xl font-bold text-gray-800 dark:text-white">Withdraw</h1>
+                    <p className="mt-4 text-gray-600 dark:text-gray-300">Withdraw your funds.</p>
                   </div>
                 </>
               </ProtectedRoute>
