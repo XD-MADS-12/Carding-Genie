@@ -20,7 +20,7 @@ const ProtectedRoute = ({ children }) => {
 
   useEffect(() => {
     const getSession = async () => {
-      const {  { session } } = await supabase.auth.getSession();
+      const { data: { session } } = await supabase.auth.getSession();
       setSession(session);
       setLoading(false);
     };
@@ -69,7 +69,7 @@ function App() {
     getUser();
 
     // The onAuthStateChange method returns a subscription, not a promise
-    const {  { subscription } } = supabase.auth.onAuthStateChange(
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         if (session?.user) {
           setUser(session.user);
