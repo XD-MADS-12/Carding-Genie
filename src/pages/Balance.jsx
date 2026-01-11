@@ -26,7 +26,7 @@ function Balance() {
   useEffect(() => {
     const fetchUser = async () => {
       // Check Supabase for authenticated user
-      const {  { user }, error } = await supabase.auth.getUser();
+      const { data: { user }, error } = await supabase.auth.getUser();
       if (error) {
         console.error('Error fetching user from Supabase:', error);
         navigate('/login');
