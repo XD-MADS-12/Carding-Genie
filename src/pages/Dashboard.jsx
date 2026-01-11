@@ -82,7 +82,7 @@ function Dashboard() {
           <Link to="/magic-genie" className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
             <div className="flex items-center mb-4">
               <Zap size={32} className="text-blue-600 mr-3" />
-              <h2 className="text-xl font-semibold">Magic Genie</h2>
+              <h2 className="text-xl font-semibold">Carding-Genie</h2>
             </div>
             <p className="text-gray-600">Automated carding methods</p>
           </Link>
