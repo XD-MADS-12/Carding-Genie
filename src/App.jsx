@@ -20,7 +20,8 @@ const ProtectedRoute = ({ children }) => {
 
   useEffect(() => {
     const getSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data, error } = await supabase.auth.getSession();
+      const session = data?.session;
       setSession(session);
       setLoading(false);
     };
