@@ -101,7 +101,7 @@ const Plans = () => {
       // If user has sufficient balance, proceed with purchase
       // First, deduct the amount from the user's balance
       try {
-        const { data, error } = await supabase.auth.getUser();
+        const { data: { user }, error } = await supabase.auth.getUser();
         const user = data?.user;
         if (user) {
           const { error } = await supabase
