@@ -55,11 +55,9 @@ const Account = () => {
     try {
       // Update user metadata
       const { error } = await supabase.auth.updateUser({
-         {
           username: profile.username,
           phone: profile.phone,
           address: profile.address
-        }
       });
 
       if (error) throw error;
