@@ -13,17 +13,17 @@ function Plans() {
       name: 'STANDARD',
       price: 260,
       features: [
-        'BALANCE/TOP UP SET',
-        'CC MANAGER/BALANCE VERIFICATION BYPASS',
+        'SMS/PHONE# OTP BOT ALL COUNTRIES',
+        'CC MANAGER/BALANCE CHECKER AND INTEGRATED MAILBOX',
         'SMS/PHONE SPOOFING',
-        'SECURE LOCATION',
-        'VERIFICATION BYPASS',
-        'INTEGRATED MAILBOX',
-        'PC & VPS REMOTE SETUP FILE',
-        'TELEGRAM BOT',
-        'EMAIL SUPPORT',
-        'LIFETIME ACCESS',
-        'FULLY AUTOMATED'
+        'LOCATION SPOOFING+SECURITY: VPN/RDP/SOCKs5 PROXY',
+        'AVS/API/VELOCITY CHECK BYPASS',
+        'HUMAN BEHAVIOR (CAPTCHA SOLVER AND 2FA PREVENTION INCLUDED)',
+        'PC & IOS/ANDROID SETUP FILE',
+        'ALL METHODS UNLOCKED',
+        '7GOLD NON VBV FULLZ CARD',
+        '6MONTHS LICENSE (METHODS/SOFTWARE UPDATES AND 24/7 TECH SUPPORT)',
+        '23K Genie Points'
       ],
       recommended: false
     },
@@ -31,18 +31,16 @@ function Plans() {
       name: 'PRO',
       price: 560,
       features: [
-        'ALL FEATURES FROM STANDARD',
-        'CC MANAGER/BALANCE VERIFICATION BYPASS',
-        'SMS/PHONE SPOOFING',
-        'SECURE LOCATION',
-        'VERIFICATION BYPASS',
-        'INTEGRATED MAILBOX',
-        'PC & VPS REMOTE SETUP FILE',
-        'TELEGRAM BOT',
-        'EMAIL SUPPORT',
-        'LIFETIME ACCESS',
-        'FULLY AUTOMATED',
-        'UPDATES AND 24/7 TECH SUPPORT'
+        'SMS/PHONE# OTP BOT ALL COUNTRIES'
+        'CC MANAGER/BALANCE CHECKER AND INTEGRATED MAILBOX'
+        'LOCATION SPOOFING+SECURITY: VPN/RDP/SOCKs5 PROXY'
+        'AVS/API/VELOCITY CHECK BYPASS'
+        'HUMAN BEHAVIOR (CAPTCHA SOLVER AND 2FA PREVENTION INCLUDED)'
+        'PC & IOS/ANDROID SETUP FILE'
+        'ALL METHODS UNLOCKED'
+        '7 PLATINUM NON VBV FULLZ CARDS'
+        '12 MONTHS LICENSE (METHODS/SOFTWARE UPDATES AND 24/7 TECH SUPPORT)'
+        '60K Genie Points'
       ],
       recommended: true
     },
@@ -50,23 +48,18 @@ function Plans() {
       name: 'MASTER',
       price: 650,
       features: [
-        'ALL FEATURES FROM PRO',
-        'INTERRUPTED/SPYWARE/FIREWALL DISABLE',
-        'LOCATION SPOOFING',
-        'PRIVATE VPN SERVER',
-        'PREMIUM SECURITY',
-        'CHECK BYPASSES',
-        'FRAUD DETECTION',
-        'CUSTOM SCRIPTS',
-        'UPDATES AND 24/7 TECH SUPPORT',
-        'LIFETIME ACCESS',
-        'FULLY AUTOMATED',
-        'SETUP FILE',
-        'TELEGRAM BOT',
-        'EMAIL SUPPORT',
-        'PC & VPS REMOTE SETUP FILE',
-        'ALWAYS ONLINE',
-        'LIFETIME ACCESS'
+        'SMS/PHONE# OTP BOT ALL COUNTRIES'
+        'CC MANAGER/BALANCE CHECKER AND INTEGRATED MAILBOX'
+        'LOCATION SPOOFING+SECURITY:'
+        'VPN/RDP/SOCKs5 PROXYAVS/API/VELOCITY CHECK BYPASS'
+        'HUMAN BEHAVIOR (CAPTCHA SOLVER AND 2FA PREVENTION INCLUDED)'
+        'PC & IOS/ANDROID SETUP FILE'
+        '1 on 1 Teamviewer/Anydesk Support'
+        'ALL METHODS UNLOCKED'
+        '17 BUSINESS NON VBV FULLZ CARDS'
+        'LIFETIME LICENSE'
+        '(METHODS/SOFTWARE UPDATES AND 24/7 TOP PRIORITY SUPPORT) 180K Genie Points'
+        
       ],
       recommended: false
     }
@@ -134,7 +127,7 @@ function Plans() {
                 <p className="text-gray-600 mb-4">You will get access to all features in the {selectedPlan.name} plan.</p>
                 
                 <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4">
-                  <p>Minimum balance required: $20.00</p>
+                  <p>Minimum balance required: $265.00</p>
                 </div>
                 
                 <div className="flex space-x-2">
