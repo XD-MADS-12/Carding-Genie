@@ -1,7 +1,6 @@
 // src/App.jsx
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
 import supabase from './services/supabaseClient';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
@@ -14,9 +13,6 @@ import Contact from './pages/Contact';
 import Account from './pages/Account';
 import Navigation from './components/layout/Navigation';
 
-// Create browser history instance
-const history = createBrowserHistory();
-
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
   const [session, setSession] = useState(null);
@@ -24,7 +20,7 @@ const ProtectedRoute = ({ children }) => {
 
   useEffect(() => {
     const getSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const {  { session } } = await supabase.auth.getSession();
       setSession(session);
       setLoading(false);
     };
@@ -73,7 +69,7 @@ function App() {
     getUser();
 
     // The onAuthStateChange method returns a subscription, not a promise
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+    const {  { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         if (session?.user) {
           setUser(session.user);
