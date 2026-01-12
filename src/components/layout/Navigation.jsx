@@ -15,7 +15,7 @@ const Navigation = ({ user }) => {
       <div className="container mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-8">
-            <Link to="/dashboard" className="flex items-center text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400">
+            <Link to="/account" className="flex items-center text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400">
               <User size={20} className="mr-2" />
               Account
             </Link>
