@@ -11,6 +11,7 @@ import Dashboard from './pages/Dashboard';
 import Plans from './pages/Plans';
 import Contact from './pages/Contact';
 import Account from './pages/Account';
+import AddFunds from './pages/AddFunds';
 import Navigation from './components/layout/Navigation';
 
 // Protected Route Component
