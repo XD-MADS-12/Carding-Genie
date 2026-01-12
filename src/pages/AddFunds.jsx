@@ -90,10 +90,10 @@ const AddFunds = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 py-8">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto px-4">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white">Add Funds</h1>
-          <p className="mt-2 text-gray-400">Add funds using cryptocurrency.</p>
+          <h1 className="text-3xl font-bold text-white mb-4">Add Funds</h1>
+          <p className="text-gray-400">Add funds using cryptocurrency.</p>
           
           {selectedCrypto && (
             <div className="mt-4 p-4 bg-gray-800 rounded-lg">
@@ -150,7 +150,7 @@ const AddFunds = () => {
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
               </svg>
-              <span className="text-gray-300">Make sure to send the exact amount.</span>
+              <span className="text-gray-300">Make sure to send the exact amount including the tumbler fee</span>
             </li>
             <li className="flex items-start">
               <svg
