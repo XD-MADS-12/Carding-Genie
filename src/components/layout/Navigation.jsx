@@ -11,21 +11,21 @@ const Navigation = ({ user }) => {
   };
 
   return (
-    <nav className="bg-white dark:bg-gray-800 shadow-md">
+    <nav className="bg-gray-800 shadow-md">
       <div className="container mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-8">
-            <Link to="/account" className="flex items-center text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400">
+            <Link to="/account" className="flex items-center text-gray-300 hover:text-white">
               <User size={20} className="mr-2" />
               Account
             </Link>
             
-            <Link to="/balance" className="flex items-center text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400">
+            <Link to="/balance" className="flex items-center text-gray-300 hover:text-white">
               <Wallet size={20} className="mr-2" />
               Balance
             </Link>
             
-            <Link to="/settings" className="flex items-center text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400">
+            <Link to="/settings" className="flex items-center text-gray-300 hover:text-white">
               <Settings size={20} className="mr-2" />
               Settings
             </Link>
@@ -33,7 +33,7 @@ const Navigation = ({ user }) => {
           
           <button
             onClick={handleLogout}
-            className="flex items-center text-red-600 hover:text-red-700"
+            className="flex items-center text-red-400 hover:text-red-300"
           >
             <LogOut size={20} className="mr-2" />
             Logout
