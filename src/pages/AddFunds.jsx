@@ -69,7 +69,7 @@ const AddFunds = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
         <LoadingSpinner />
       </div>
     );
@@ -77,7 +77,7 @@ const AddFunds = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-4">
+      <div className="min-h-screen bg-gray-900 p-4">
         <div className="max-w-4xl mx-auto">
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
             <span className="block sm:inline">{error}</span>
@@ -89,27 +89,27 @@ const AddFunds = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+    <div className="min-h-screen bg-gray-900 py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Add Funds to Balance: {selectedCrypto || 'Select a cryptocurrency'}</h1>
-          <p className="mt-2 text-gray-600 dark:text-gray-300">Add funds using cryptocurrency.</p>
+          <h1 className="text-3xl font-bold text-white">Add Funds</h1>
+          <p className="mt-2 text-gray-400">Add funds using cryptocurrency.</p>
           
           {selectedCrypto && (
-            <div className="mt-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
-              <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">Deposit Information</h2>
+            <div className="mt-4 p-4 bg-gray-800 rounded-lg">
+              <h2 className="text-xl font-semibold text-white mb-2">Deposit Information</h2>
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span className="text-gray-600 dark:text-gray-300">Minimum Deposit:</span>
-                  <span className="font-semibold text-gray-800 dark:text-white">${minimumDeposit}</span>
+                  <span className="text-gray-300">Minimum Deposit:</span>
+                  <span className="font-semibold text-white">${minimumDeposit}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600 dark:text-gray-300">Tumbler Fee:</span>
-                  <span className="font-semibold text-gray-800 dark:text-white">${tumblerFee}</span>
+                  <span className="text-gray-300">Tumbler Fee:</span>
+                  <span className="font-semibold text-white">${tumblerFee}</span>
                 </div>
-                <div className="pt-2 border-t border-gray-300 dark:border-gray-600">
-                  <span className="block text-gray-600 dark:text-gray-300 mb-2">Your Address:</span>
-                  <code className="block text-sm font-mono text-purple-600 dark:text-purple-400 break-all bg-white dark:bg-gray-700 p-2 rounded">
+                <div className="pt-2 border-t border-gray-700">
+                  <span className="block text-gray-300 mb-2">Your Address:</span>
+                  <code className="block text-sm font-mono text-purple-400 break-all bg-gray-700 p-2 rounded">
                     {depositAddress}
                   </code>
                 </div>
@@ -125,20 +125,20 @@ const AddFunds = () => {
               key={symbol}
               onClick={() => navigate(`/add-funds/${symbol.toLowerCase()}`)}
               className={`flex flex-col items-center justify-center p-4 rounded-lg ${
-                selectedCrypto === symbol ? 'bg-purple-100 dark:bg-purple-900' : 'bg-white dark:bg-gray-800'
-              } text-white hover:opacity-90 transition-opacity`}
+                selectedCrypto === symbol ? 'bg-purple-900' : 'bg-gray-800'
+              } text-white hover:bg-gray-700 transition-colors`}
             >
-              <div className="w-12 h-12 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center mb-2">
-                <span className="text-sm font-medium text-gray-800 dark:text-white">{symbol}</span>
+              <div className="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center mb-2">
+                <span className="text-sm font-medium text-white">{symbol}</span>
               </div>
-              <span className="mt-2 text-sm font-medium text-gray-800 dark:text-white">{symbol}</span>
+              <span className="mt-2 text-sm font-medium text-white">{symbol}</span>
             </button>
           ))}
         </div>
 
         {/* Additional information */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-4">Important Information</h2>
+        <div className="bg-gray-800 rounded-lg shadow-md p-6">
+          <h2 className="text-xl font-bold text-white mb-4">Important Information</h2>
           <ul className="space-y-2">
             <li className="flex items-start">
               <svg
@@ -150,7 +150,7 @@ const AddFunds = () => {
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
               </svg>
-              <span className="text-gray-700 dark:text-gray-300">Make sure to send the exact amount.</span>
+              <span className="text-gray-300">Make sure to send the exact amount.</span>
             </li>
             <li className="flex items-start">
               <svg
@@ -162,7 +162,7 @@ const AddFunds = () => {
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
               </svg>
-              <span className="text-gray-700 dark:text-gray-300">Transactions may take up to 10 minutes to process</span>
+              <span className="text-gray-300">Transactions may take up to 10 minutes to process</span>
             </li>
             <li className="flex items-start">
               <svg
@@ -174,7 +174,7 @@ const AddFunds = () => {
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
               </svg>
-              <span className="text-gray-700 dark:text-gray-300">Your balance will be updated automatically once the transaction is confirmed</span>
+              <span className="text-gray-300">Your balance will be updated automatically once the transaction is confirmed</span>
             </li>
           </ul>
         </div>
