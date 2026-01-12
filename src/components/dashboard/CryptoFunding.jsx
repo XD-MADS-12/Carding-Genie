@@ -1,21 +1,21 @@
 // src/components/dashboard/CryptoFunding.jsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Bitcoin, Ethereum, Dogecoin, Litecoin, Monero, Solana, USDT, Dash, Cardano, Zcash } from 'lucide-react';
+import { Bitcoin, DollarSign, Smartphone, CreditCard, Shield, Globe, Zap, Coins, Users, Lock } from 'lucide-react';
 import supabase from '../../services/supabaseClient';
 
 const CryptoFunding = () => {
   const [cryptoOptions, setCryptoOptions] = useState([
     { name: 'Bitcoin', symbol: 'BTC', icon: <Bitcoin size={24} />, color: 'bg-orange-500' },
-    { name: 'Ethereum', symbol: 'ETH', icon: <Ethereum size={24} />, color: 'bg-blue-500' },
-    { name: 'Dash', symbol: 'DASH', icon: <Dash size={24} />, color: 'bg-cyan-500' },
-    { name: 'Dogecoin', symbol: 'DOGE', icon: <Dogecoin size={24} />, color: 'bg-yellow-500' },
-    { name: 'Litecoin', symbol: 'LTC', icon: <Litecoin size={24} />, color: 'bg-gray-500' },
-    { name: 'Monero', symbol: 'XMR', icon: <Monero size={24} />, color: 'bg-purple-500' },
-    { name: 'Solana', symbol: 'SOL', icon: <Solana size={24} />, color: 'bg-green-500' },
-    { name: 'USDT', symbol: 'USDT', icon: <USDT size={24} />, color: 'bg-blue-600' },
-    { name: 'Cardano', symbol: 'ADA', icon: <Cardano size={24} />, color: 'bg-indigo-500' },
-    { name: 'Zcash', symbol: 'ZEC', icon: <Zcash size={24} />, color: 'bg-teal-500' },
+    { name: 'Ethereum', symbol: 'ETH', icon: <CreditCard size={24} />, color: 'bg-blue-500' },
+    { name: 'Dash', symbol: 'DASH', icon: <DollarSign size={24} />, color: 'bg-cyan-500' },
+    { name: 'Dogecoin', symbol: 'DOGE', icon: <Globe size={24} />, color: 'bg-yellow-500' },
+    { name: 'Litecoin', symbol: 'LTC', icon: <Zap size={24} />, color: 'bg-gray-500' },
+    { name: 'Monero', symbol: 'XMR', icon: <Shield size={24} />, color: 'bg-purple-500' },
+    { name: 'Solana', symbol: 'SOL', icon: <Smartphone size={24} />, color: 'bg-green-500' },
+    { name: 'USDT', symbol: 'USDT', icon: <DollarSign size={24} />, color: 'bg-blue-600' },
+    { name: 'Cardano', symbol: 'ADA', icon: <Coins size={24} />, color: 'bg-indigo-500' },
+    { name: 'Zcash', symbol: 'ZEC', icon: <Lock size={24} />, color: 'bg-teal-500' },
   ]);
   
   const [depositAddresses, setDepositAddresses] = useState({});
@@ -28,18 +28,18 @@ const CryptoFunding = () => {
 
   const fetchDepositAddresses = async () => {
     try {
-      const { data, error } = await supabase
+      const addressesResponse = await supabase
         .from('deposit_addresses')
         .select('*')
         .eq('is_active', true);
 
-      if (error) {
-        throw error;
+      if (addressesResponse.error) {
+        throw addressesResponse.error;
       }
 
       // Create a map of currency codes to addresses
       const addressesMap = {};
-      data.forEach(item => {
+      addressesResponse.data.forEach(item => {
         addressesMap[item.currency_code.toUpperCase()] = item.address;
       });
       
