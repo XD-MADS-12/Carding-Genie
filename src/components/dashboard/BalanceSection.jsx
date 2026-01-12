@@ -21,25 +21,24 @@ const BalanceSection = () => {
   const fetchBalance = async () => {
     setLoading(true);
     try {
-      const { data, error } = await supabase.auth.getUser();  // line 18
-      const user = data?.user;
+      const { data: { user } } = await supabase.auth.getUser();
       
       if (!user) {
         throw new Error('User not authenticated');
       }
       
       // Fetch the actual balance from the profiles table in Supabase
-      const { data, error } = await supabase
+      const balanceResponse = await supabase
         .from('profiles')
         .select('balance')
         .eq('id', user.id)
         .single();
 
-      if (error) {
-        throw error;
+      if (balanceResponse.error) {
+        throw balanceResponse.error;
       }
       
-      setBalance(data.balance || 0);
+      setBalance(balanceResponse.data.balance || 0);
     } catch (err) {
       setError(err.message);
     } finally {
