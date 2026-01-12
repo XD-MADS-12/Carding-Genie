@@ -8,17 +8,26 @@ import supabase from '../../services/supabaseClient';
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
+  
+  // Check if user is authenticated
+  const [user, setUser] = useState(null);
+
+  React.useEffect(() => {
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+    };
+    
+    getUser();
+  }, []);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate('/login');
   };
-
   const navItems = [
     { name: 'Home', path: '/' },
     { name: 'How To Use', path: '/how-to-use' },
-    { name: 'Register', path: '/signup' },
-    { name: 'Login', path: '/login' },
     { name: 'Contact', path: '/contact' },
   ];
 
@@ -48,6 +57,35 @@ const Header = () => {
                 {item.name}
               </Link>
             ))}
+            
+            {/* Show Login/Register only if not logged in */}
+            {!user && (
+              <>
+                <Link
+                  to="/login"
+                  className="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 px-3 py-2 text-sm font-medium"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  className="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 px-3 py-2 text-sm font-medium"
+                >
+                  Register
+                </Link>
+              </>
+            )}
+            
+            {/* Show Logout if logged in */}
+            {user && (
+              <button
+                onClick={handleLogout}
+                className="text-red-600 hover:text-red-700 px-3 py-2 text-sm font-medium"
+              >
+                Logout
+              </button>
+            )}
+            
             <ThemeToggle />
           </nav>
 
@@ -78,6 +116,39 @@ const Header = () => {
                 {item.name}
               </Link>
             ))}
+            
+            {/* Show Login/Register only if not logged in */}
+            {!user && (
+              <>
+                <Link
+                  to="/login"
+                  className="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  className="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Register
+                </Link>
+              </>
+            )}
+            
+            {/* Show Logout if logged in */}
+            {user && (
+              <button
+                onClick={() => {
+                  handleLogout();
+                  setIsMenuOpen(false);
+                }}
+                className="block px-3 py-2 text-base font-medium text-red-600 hover:text-red-700"
+              >
+                Logout
+              </button>
+            )}
           </div>
         </div>
       )}
