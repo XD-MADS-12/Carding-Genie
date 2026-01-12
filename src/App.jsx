@@ -11,8 +11,11 @@ import Dashboard from './pages/Dashboard';
 import Plans from './pages/Plans';
 import Contact from './pages/Contact';
 import Account from './pages/Account';
-import AddFunds from './pages/AddFunds';
 import Navigation from './components/layout/Navigation';
+import AddFunds from './pages/AddFunds';
+import Balance from './pages/Balance';
+import ForgotPassword from './pages/ForgotPassword';
+import Download from './pages/Download';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -21,8 +24,7 @@ const ProtectedRoute = ({ children }) => {
 
   useEffect(() => {
     const getSession = async () => {
-      const { data, error } = await supabase.auth.getSession();
-      const session = data?.session;
+      const { data: { session } } = await supabase.auth.getSession();
       setSession(session);
       setLoading(false);
     };
@@ -62,8 +64,7 @@ function App() {
 
   useEffect(() => {
     const getUser = async () => {
-      const { data, error } = await supabase.auth.getUser();
-      const user = data?.user;
+      const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         setUser(user);
       }
@@ -98,6 +99,8 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/download" element={<Download />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
             
             <Route
               path="/dashboard"
@@ -214,10 +217,16 @@ function App() {
               <ProtectedRoute>
                 <>
                   <Navigation user={user} />
-                  <div className="container mx-auto px-4 py-8">
-                    <h1 className="text-3xl font-bold text-gray-800 dark:text-white">Add Funds</h1>
-                    <p className="mt-4 text-gray-600 dark:text-gray-300">Add funds using cryptocurrency.</p>
-                  </div>
+                  <AddFunds />
+                </>
+              </ProtectedRoute>
+            } />
+            
+            <Route path="/balance" element={
+              <ProtectedRoute>
+                <>
+                  <Navigation user={user} />
+                  <Balance />
                 </>
               </ProtectedRoute>
             } />
